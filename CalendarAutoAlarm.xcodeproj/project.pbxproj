@@ -1,0 +1,349 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C32C48690DEA81607436E9C0 /* CalendarAutoAlarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */; };
+		C6A5AA1937C362EFE96D3E28 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EED8A2ED0BAE0359DC140A /* ContentView.swift */; };
+		00FEB0EEF47488E4184A3DC6 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */; };
+		FBE5CAD84DA98C2F402F7D77 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27005EBEF66D32455FF67F /* SignInView.swift */; };
+		275326A921C8AD70F35E3FAD /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */; };
+		E8361EA53EA4F557614A4960 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130E2864091AAB1E57AE194 /* AuthManager.swift */; };
+		712DE6B25C0448208BD2893C /* AlarmScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */; };
+		8C6175E7D4401E660D1F31DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */; };
+		3CF38336CBF4AF4A483A345A /* CalendarAutoAlarmCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4EBA536222A3B88C50CC36D3 /* CalendarAutoAlarmCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAutoAlarmApp.swift; sourceTree = "<group>"; };
+		B5EED8A2ED0BAE0359DC140A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListView.swift; sourceTree = "<group>"; };
+		4F27005EBEF66D32455FF67F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		9130E2864091AAB1E57AE194 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
+		E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DE526533379910F7E0491C4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BCCADA3021C07D12E775CB5 /* CalendarAutoAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarAutoAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1717CF7AD967B0AC9C5E3873 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CF38336CBF4AF4A483A345A /* CalendarAutoAlarmCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5928955287B8089ED2177128 = {
+			isa = PBXGroup;
+			children = (
+				095FEE2E633C50D24407F2D6 /* CalendarAutoAlarm */,
+				BF7A2D27A78D590BDEF15AF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		095FEE2E633C50D24407F2D6 /* CalendarAutoAlarm */ = {
+			isa = PBXGroup;
+			children = (
+				DE526533379910F7E0491C4E /* Info.plist */,
+				E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */,
+				C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */,
+				B5EED8A2ED0BAE0359DC140A /* ContentView.swift */,
+				3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */,
+				4F27005EBEF66D32455FF67F /* SignInView.swift */,
+				D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */,
+				9130E2864091AAB1E57AE194 /* AuthManager.swift */,
+				0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */,
+			);
+			path = CalendarAutoAlarm;
+			sourceTree = "<group>";
+		};
+		BF7A2D27A78D590BDEF15AF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BCCADA3021C07D12E775CB5 /* CalendarAutoAlarm.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6439CF22188FA14BBD363342 /* CalendarAutoAlarm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD616C6EFB25E4F57A09FEDE /* Build configuration list for PBXNativeTarget "CalendarAutoAlarm" */;
+			buildPhases = (
+				4A559F4328B4DE1F7299E560 /* Sources */,
+				1717CF7AD967B0AC9C5E3873 /* Frameworks */,
+				57135DEEBA5CEFA8CA053F0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CalendarAutoAlarm;
+			packageProductDependencies = (
+				4EBA536222A3B88C50CC36D3 /* CalendarAutoAlarmCore */,
+			);
+			productName = CalendarAutoAlarm;
+			productReference = 7BCCADA3021C07D12E775CB5 /* CalendarAutoAlarm.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					6439CF22188FA14BBD363342 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 3A95AC35104CF9E1A07B0B74 /* Build configuration list for PBXProject "CalendarAutoAlarm" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5928955287B8089ED2177128;
+			packageReferences = (
+				9F1BEEBC278B6D37EB496AE3 /* XCLocalSwiftPackageReference "." */,
+			);
+			productsGroup = BF7A2D27A78D590BDEF15AF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6439CF22188FA14BBD363342 /* CalendarAutoAlarm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		57135DEEBA5CEFA8CA053F0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C6175E7D4401E660D1F31DF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4A559F4328B4DE1F7299E560 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C32C48690DEA81607436E9C0 /* CalendarAutoAlarmApp.swift in Sources */,
+				C6A5AA1937C362EFE96D3E28 /* ContentView.swift in Sources */,
+				00FEB0EEF47488E4184A3DC6 /* EventListView.swift in Sources */,
+				FBE5CAD84DA98C2F402F7D77 /* SignInView.swift in Sources */,
+				275326A921C8AD70F35E3FAD /* CalendarViewModel.swift in Sources */,
+				E8361EA53EA4F557614A4960 /* AuthManager.swift in Sources */,
+				712DE6B25C0448208BD2893C /* AlarmScheduler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		9F1BEEBC278B6D37EB496AE3 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ".";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4EBA536222A3B88C50CC36D3 /* CalendarAutoAlarmCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F1BEEBC278B6D37EB496AE3 /* XCLocalSwiftPackageReference "." */;
+			productName = CalendarAutoAlarmCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3AFAEAAE700E17B5534F1B8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A5CDE9F037A03BA5397B983F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B6672A7CAFF32B5AAD895E42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CalendarAutoAlarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LE_SWIFT_VERSION = 5.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.CalendarAutoAlarm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		3F973061B829CD18B8DC0697 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CalendarAutoAlarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LE_SWIFT_VERSION = 5.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.CalendarAutoAlarm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A95AC35104CF9E1A07B0B74 /* Build configuration list for PBXProject "CalendarAutoAlarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AFAEAAE700E17B5534F1B8A /* Debug */,
+				A5CDE9F037A03BA5397B983F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD616C6EFB25E4F57A09FEDE /* Build configuration list for PBXNativeTarget "CalendarAutoAlarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6672A7CAFF32B5AAD895E42 /* Debug */,
+				3F973061B829CD18B8DC0697 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
