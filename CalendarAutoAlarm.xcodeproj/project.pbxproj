@@ -10,9 +10,8 @@
 		C32C48690DEA81607436E9C0 /* CalendarAutoAlarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */; };
 		C6A5AA1937C362EFE96D3E28 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EED8A2ED0BAE0359DC140A /* ContentView.swift */; };
 		00FEB0EEF47488E4184A3DC6 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */; };
-		FBE5CAD84DA98C2F402F7D77 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27005EBEF66D32455FF67F /* SignInView.swift */; };
 		275326A921C8AD70F35E3FAD /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */; };
-		E8361EA53EA4F557614A4960 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130E2864091AAB1E57AE194 /* AuthManager.swift */; };
+		C887C400CDB85813EA8B86B3 /* AppleCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AA419ADA9B7FC5CECF81DA /* AppleCalendarService.swift */; };
 		712DE6B25C0448208BD2893C /* AlarmScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */; };
 		8C6175E7D4401E660D1F31DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */; };
 		3CF38336CBF4AF4A483A345A /* CalendarAutoAlarmCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4EBA536222A3B88C50CC36D3 /* CalendarAutoAlarmCore */; };
@@ -22,9 +21,8 @@
 		C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAutoAlarmApp.swift; sourceTree = "<group>"; };
 		B5EED8A2ED0BAE0359DC140A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListView.swift; sourceTree = "<group>"; };
-		4F27005EBEF66D32455FF67F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		9130E2864091AAB1E57AE194 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		C1AA419ADA9B7FC5CECF81DA /* AppleCalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleCalendarService.swift; sourceTree = "<group>"; };
 		0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
 		E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE526533379910F7E0491C4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,9 +57,8 @@
 				C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */,
 				B5EED8A2ED0BAE0359DC140A /* ContentView.swift */,
 				3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */,
-				4F27005EBEF66D32455FF67F /* SignInView.swift */,
 				D6E31F136E7C6FB6EA1681FB /* CalendarViewModel.swift */,
-				9130E2864091AAB1E57AE194 /* AuthManager.swift */,
+				C1AA419ADA9B7FC5CECF81DA /* AppleCalendarService.swift */,
 				0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */,
 			);
 			path = CalendarAutoAlarm;
@@ -153,9 +150,8 @@
 				C32C48690DEA81607436E9C0 /* CalendarAutoAlarmApp.swift in Sources */,
 				C6A5AA1937C362EFE96D3E28 /* ContentView.swift in Sources */,
 				00FEB0EEF47488E4184A3DC6 /* EventListView.swift in Sources */,
-				FBE5CAD84DA98C2F402F7D77 /* SignInView.swift in Sources */,
 				275326A921C8AD70F35E3FAD /* CalendarViewModel.swift in Sources */,
-				E8361EA53EA4F557614A4960 /* AuthManager.swift in Sources */,
+				C887C400CDB85813EA8B86B3 /* AppleCalendarService.swift in Sources */,
 				712DE6B25C0448208BD2893C /* AlarmScheduler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,24 +19,13 @@
     <key>CFBundleVersion</key>
     <string>1</string>
 
-    <!-- Google OAuth redirect URI – must match your iOS client ID in Google Cloud Console -->
-    <!-- Replace YOUR_GOOGLE_OAUTH_CLIENT_ID with the value from your GoogleService-Info.plist -->
-    <key>GoogleOAuthClientID</key>
-    <string>YOUR_GOOGLE_OAUTH_CLIENT_ID</string>
-
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <!-- Reverse-DNS of your Google client ID, e.g. com.googleusercontent.apps.12345-abc -->
-                <string>com.googleusercontent.apps.YOUR_GOOGLE_OAUTH_CLIENT_ID</string>
-            </array>
-        </dict>
-    </array>
-
+    <!-- iOS ≤ 16 calendar permission prompt -->
     <key>NSCalendarsUsageDescription</key>
-    <string>CalendarAutoAlarm reads your Google Calendar events to schedule alarms.</string>
+    <string>CalendarAutoAlarm reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
+
+    <!-- iOS 17+ full-access calendar permission prompt -->
+    <key>NSCalendarsFullAccessUsageDescription</key>
+    <string>CalendarAutoAlarm reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
 
     <key>NSUserNotificationsUsageDescription</key>
     <string>CalendarAutoAlarm sends you alarm notifications before your calendar events.</string>

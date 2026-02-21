@@ -5,13 +5,31 @@ import CalendarAutoAlarmCore
 struct EventListView: View {
 
     @ObservedObject var viewModel: CalendarViewModel
-    @EnvironmentObject private var authManager: AuthManager
     @EnvironmentObject private var alarmScheduler: AlarmScheduler
 
     var body: some View {
         Group {
             if viewModel.isLoading {
                 ProgressView("Loading events…")
+            } else if viewModel.permissionDenied {
+                VStack(spacing: 16) {
+                    Image(systemName: "calendar.badge.exclamationmark")
+                        .font(.largeTitle)
+                        .foregroundStyle(.orange)
+                    Text("Calendar Access Required")
+                        .font(.headline)
+                    Text("Allow access in Settings → Privacy & Security → Calendars, then pull down to refresh.")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal)
+                    Button("Open Settings") {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
             } else if let error = viewModel.errorMessage {
                 VStack(spacing: 16) {
                     Image(systemName: "exclamationmark.triangle")
@@ -21,9 +39,7 @@ struct EventListView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                     Button("Retry") {
-                        Task {
-                            await viewModel.refresh(accessToken: authManager.accessToken ?? "")
-                        }
+                        Task { await viewModel.refresh() }
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -32,14 +48,14 @@ struct EventListView: View {
                 ContentUnavailableView(
                     "No upcoming events",
                     systemImage: "calendar",
-                    description: Text("Add \"alarm: 5m\" to an event description in Google Calendar to set an automatic alarm.")
+                    description: Text("Add \"alarm: 5m\" to an event's description or notes to schedule an automatic alarm.")
                 )
             } else {
                 List(viewModel.events) { event in
                     EventRow(event: event)
                 }
                 .refreshable {
-                    await viewModel.refresh(accessToken: authManager.accessToken ?? "")
+                    await viewModel.refresh()
                 }
             }
         }
@@ -48,9 +64,7 @@ struct EventListView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 if !viewModel.isLoading {
                     Button {
-                        Task {
-                            await viewModel.refresh(accessToken: authManager.accessToken ?? "")
-                        }
+                        Task { await viewModel.refresh() }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                     }
