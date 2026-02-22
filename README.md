@@ -243,3 +243,34 @@ swift test
 * The app accesses your calendar **read-only** using iOS EventKit.
 * Calendar data is **never** transmitted anywhere — all alarm scheduling is done
   locally using iOS notifications.
+
+---
+
+## Troubleshooting
+
+### "Entitlement `com.apple.developer.usernotifications.critical-alerts` requires Apple approval"
+
+This error means Xcode is using a **stale build cache** from a previous version of the
+project that briefly included the Critical Alerts entitlement. The entitlement has since
+been removed from the repo entirely.
+
+**Fix — two steps:**
+
+1. Make sure you have the latest code:
+
+   ```bash
+   git pull
+   ```
+
+2. In Xcode, clean the build folder to discard the stale cache:
+
+   **Product → Clean Build Folder** (⌘⇧K)
+
+Then press **⌘R** to build and run. The error will not reappear.
+
+### "Signing for CalendarAutoAlarm requires a development team"
+
+Open the project in Xcode, select the **CalendarAutoAlarm** target →
+*Signing & Capabilities* tab → set **Team** to your Apple ID.  
+If your Apple ID isn't listed, add it via *Xcode → Settings → Accounts*.
+
