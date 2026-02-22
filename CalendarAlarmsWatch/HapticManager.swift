@@ -18,29 +18,30 @@ import WatchKit
 /// people learn to distinguish phone-ring vibration from text-message vibration.
 enum HapticManager {
 
-    static func playAlarmPattern() {
-        // — Triple tap —
-        play(.notification, after: 0.00)
-        play(.notification, after: 0.20)
-        play(.notification, after: 0.40)
+    /// Plays the alarm haptic pattern asynchronously.
+    ///
+    /// Uses `Task.sleep` (Swift cooperative threading) instead of
+    /// `DispatchQueue.main.asyncAfter` so the full sequence completes reliably
+    /// inside a `WKUserNotificationHostingController.didReceive()` call — the
+    /// main run loop's timer queue is not driven reliably in that context, but
+    /// the Swift concurrency runtime is.
+    @MainActor
+    static func playAlarmPattern() async {
+        // Each step: (haptic type, nanoseconds to sleep *before* this tap)
+        let steps: [(WKHapticType, UInt64)] = [
+            (.notification,     0),           // t = 0.0 s
+            (.notification,  200_000_000),    // t = 0.2 s
+            (.notification,  200_000_000),    // t = 0.4 s
+            (.success,       800_000_000),    // t = 1.2 s  — signature thud
+            (.notification,  700_000_000),    // t = 1.9 s
+            (.notification,  200_000_000),    // t = 2.1 s
+        ]
 
-        // — Signature thud (long pause + success) —
-        play(.success,      after: 1.20)
-
-        // — Closing pair —
-        play(.notification, after: 1.90)
-        play(.notification, after: 2.10)
-    }
-
-    // MARK: - Private
-
-    private static func play(_ type: WKHapticType, after delay: TimeInterval) {
-        if delay == 0 {
-            WKInterfaceDevice.current().play(type)
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                WKInterfaceDevice.current().play(type)
+        for (type, delay) in steps {
+            if delay > 0 {
+                try? await Task.sleep(nanoseconds: delay)
             }
+            WKInterfaceDevice.current().play(type)
         }
     }
 }

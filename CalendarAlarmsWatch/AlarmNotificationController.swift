@@ -21,7 +21,10 @@ class AlarmNotificationController: WKUserNotificationHostingController<Notificat
     override func didReceive(_ notification: UNNotification) {
         alarmTitle   = notification.request.content.title
         alarmMessage = notification.request.content.body
-        // Fire the custom haptic immediately so the wearer feels the pattern.
-        HapticManager.playAlarmPattern()
+        // Launch the haptic pattern in a Task so it uses Swift cooperative threading
+        // (Task.sleep) rather than DispatchQueue.main.asyncAfter. The latter is
+        // unreliable inside didReceive() because the main run loop timer queue is
+        // not guaranteed to be processed after this method returns.
+        Task { await HapticManager.playAlarmPattern() }
     }
 }
