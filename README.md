@@ -114,7 +114,16 @@ see both apps appear on their respective devices.
 
 ### Verifying the Watch app is installed and working
 
-**Step 1 — Confirm the app appears on your Watch:**
+**Step 1 — Confirm the build timestamp:**
+
+Every build embeds a timestamp visible on the main screen of both apps:
+
+- **iPhone:** Open Calendar Alarms → see the subtitle under the navigation title (e.g. *"Built: 2026-02-22 18:22 UTC"*).
+- **Watch:** Open Calendar Alarms on the Watch → timestamp appears below the app title.
+
+After a fresh ⌘R the timestamp matches the latest commit. If it shows an older date, clean the build folder (⌘⇧K) and run again.
+
+**Step 2 — Confirm the app appears on your Watch:**
 
 1. On your iPhone, open the **Watch** app.
 2. Scroll down to **Installed on Apple Watch**.
@@ -122,7 +131,7 @@ see both apps appear on their respective devices.
    If it isn't there, run ⌘R from Xcode again (iOS scheme → iPhone destination) and wait
    for the spinner in the Watch app to finish syncing.
 
-**Step 2 — Test the haptic from the Watch:**
+**Step 3 — Test the haptic from the Watch:**
 
 1. On the Watch, press the **Digital Crown** to open the app grid.
 2. Find and tap **Calendar Alarms** (yellow bell icon).
@@ -152,11 +161,15 @@ If you feel nothing, the Watch app isn't running or haptics are disabled
   With wrist detection on, notifications go to Watch when it's on your wrist even if
   iPhone is nearby.
 
-> **Foreground vs background:** The custom "3·1·2" haptic pattern only plays when you
-> have the Calendar Alarms Watch app **open on screen** at the moment the alarm fires.
-> When the Watch app is in the background (normal use case — Watch is on your wrist,
-> screen off) the system delivers the notification with the **standard Watch haptic buzz**
-> automatically. Both cases work; only the foreground case uses the custom pattern.
+> **Foreground vs background — which haptic fires:**
+> - **Watch app in the background** (normal day-to-day case — Watch on wrist, alarm fires):  
+>   The OS delivers the notification with the **standard system Watch haptic**. The custom
+>   3·1·2 pattern does **not** run here — watchOS does not allow custom code to execute
+>   during background notification delivery. This is an OS-level restriction.
+> - **Watch app open on screen** when the alarm fires (foreground):  
+>   Plays the full custom **3·1·2 haptic sequence**.
+> - **Test Haptic button** (Watch app open): plays the custom pattern on demand — the
+>   only reliable way to confirm the custom haptic works on your specific Watch.
 
 ---
 

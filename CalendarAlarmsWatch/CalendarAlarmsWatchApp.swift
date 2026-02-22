@@ -45,46 +45,66 @@ final class AlarmDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 // MARK: - Home view
 
+/// Baked-in build timestamp — updated with every commit so the user can confirm
+/// which version is installed on their Watch.
+private let buildTimestamp = "2026-02-22 18:22 UTC"
+
 /// Home view shown when the user opens the Watch app directly.
 ///
-/// The "Test Haptic" button lets the user immediately confirm that
-/// (a) the Watch app is installed and running, and
-/// (b) the custom 3·1·2 haptic sequence is working on this device.
+/// Shows a build timestamp so the user can confirm which version is installed.
+/// The "Test Haptic" button plays the custom 3·1·2 pattern immediately — this
+/// is the only way to hear the custom sequence, because background/locked-iPhone
+/// notifications use the system Watch haptic (not custom code).
 struct WatchHomeView: View {
     @State private var isTesting = false
 
     var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "bell.fill")
-                .font(.title2)
-                .foregroundStyle(.yellow)
-            Text("Calendar Alarms")
-                .font(.headline)
-                .multilineTextAlignment(.center)
-            Text("Alarms fire when your\niPhone screen is locked.")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+        ScrollView {
+            VStack(spacing: 10) {
+                Image(systemName: "bell.fill")
+                    .font(.title2)
+                    .foregroundStyle(.yellow)
+                Text("Calendar Alarms")
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
 
-            Button {
-                guard !isTesting else { return }
-                isTesting = true
-                Task {
-                    await HapticManager.playAlarmPattern()
-                    isTesting = false
+                Text("Built: \(buildTimestamp)")
+                    .font(.system(size: 9, weight: .regular, design: .monospaced))
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+
+                Divider()
+
+                Text("Alarms fire when your\niPhone screen is locked.")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+
+                Button {
+                    guard !isTesting else { return }
+                    isTesting = true
+                    Task {
+                        await HapticManager.playAlarmPattern()
+                        isTesting = false
+                    }
+                } label: {
+                    Label(
+                        isTesting ? "Playing…" : "Test Haptic",
+                        systemImage: isTesting ? "waveform" : "hand.tap"
+                    )
+                    .font(.caption)
                 }
-            } label: {
-                Label(
-                    isTesting ? "Playing…" : "Test Haptic",
-                    systemImage: isTesting ? "waveform" : "hand.tap"
-                )
-                .font(.caption)
+                .disabled(isTesting)
+                .buttonStyle(.borderedProminent)
+                .tint(.yellow)
+                .padding(.top, 4)
+
+                Text("Tap above to verify\ninstall & custom haptic.")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
             }
-            .disabled(isTesting)
-            .buttonStyle(.borderedProminent)
-            .tint(.yellow)
-            .padding(.top, 4)
+            .padding()
         }
-        .padding()
     }
 }

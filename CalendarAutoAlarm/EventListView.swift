@@ -1,6 +1,10 @@
 import SwiftUI
 import CalendarAutoAlarmCore
 
+/// Baked-in build timestamp — updated with every commit so the user can confirm
+/// which version is installed on their iPhone.
+private let buildTimestamp = "2026-02-22 18:22 UTC"
+
 /// Displays the list of upcoming calendar events and their alarms.
 struct EventListView: View {
 
@@ -63,6 +67,7 @@ struct EventListView: View {
             }
         }
         .navigationTitle("Calendar Alarms")
+        .navigationSubtitle("Built: \(buildTimestamp)")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Group {
