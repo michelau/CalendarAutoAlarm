@@ -334,3 +334,21 @@ This is a **benign warning** from `actool` in Xcode 26 beta — the SDK doesn't 
 include trait-set data for Watch6,9 at watchOS 26.3. It does not affect the build
 or runtime behaviour and can be safely ignored.
 
+### "CalendarAlarmsWatch failed to launch" / Watch app exits immediately
+
+This almost always means watchOS hasn't trusted the developer certificate yet:
+
+1. **Trust on iPhone first** (if you haven't already):  
+   *Settings → General → VPN & Device Management → \[Your Apple ID\] → Trust*
+
+2. **Trust on Watch** — watchOS needs a separate trust step:  
+   On your iPhone open the **Watch** app → *General → Device Management* →  
+   tap your Apple ID → **Trust**.  
+   *(This menu only appears after the Watch app is installed at least once.)*
+
+3. **Clean build folder** (⌘⇧K) and re-run the **CalendarAlarmsWatch** scheme  
+   targeting your physical Watch.
+
+If the app still fails to launch after trusting, try restarting both the iPhone and  
+Apple Watch, then run again from Xcode.
+

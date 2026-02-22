@@ -1,42 +1,44 @@
 import SwiftUI
-import WatchKit
 import UserNotifications
 
 /// Entry point for the Calendar Alarms Watch companion app.
 ///
-/// Notification handling uses `UNUserNotificationCenterDelegate` (set up in
-/// `AppDelegate`) rather than `WKNotificationScene` / `WKUserNotificationHostingController`,
-/// which were deprecated in watchOS 10. When a `CALENDAR_ALARM` notification arrives
-/// while the Watch app is in the foreground, `AppDelegate` plays the custom haptic
-/// pattern. When the app is in the background the system delivers the notification
-/// with its default Watch haptic automatically.
+/// Notification handling uses a `UNUserNotificationCenterDelegate` held as a
+/// `@StateObject` and wired up in `.task {}` on the root view.  This avoids
+/// `@WKApplicationDelegateAdaptor` / `WKApplicationDelegate`, which initialise
+/// synchronously at app startup and can prevent the process from launching on
+/// some watchOS 26 personal-team builds.
+///
+/// When a `CALENDAR_ALARM` notification arrives while the Watch app is in the
+/// foreground, `AlarmDelegate` plays the custom haptic pattern.  When the app
+/// is in the background the system delivers the notification with the default
+/// Watch haptic automatically.
 @main
 struct CalendarAlarmsWatchApp: App {
-    @WKApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var alarmDelegate = AlarmDelegate()
 
     var body: some Scene {
         WindowGroup {
             WatchHomeView()
+                .task {
+                    UNUserNotificationCenter.current().delegate = alarmDelegate
+                }
         }
     }
 }
 
-// MARK: - App delegate
+// MARK: - Notification delegate
 
-class AppDelegate: NSObject, WKApplicationDelegate, UNUserNotificationCenterDelegate {
+/// Handles foreground `CALENDAR_ALARM` notifications by playing the custom
+/// haptic pattern; all other notifications use the default presentation.
+final class AlarmDelegate: NSObject, UNUserNotificationCenterDelegate, ObservableObject {
 
-    func applicationDidFinishLaunching() {
-        UNUserNotificationCenter.current().delegate = self
-    }
-
-    /// Play the custom haptic pattern when a CALENDAR_ALARM notification arrives
-    /// while the Watch app is in the foreground.
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
         if notification.request.content.categoryIdentifier == "CALENDAR_ALARM" {
-            Task { await HapticManager.playAlarmPattern() }
+            await HapticManager.playAlarmPattern()
         }
         return [.banner, .sound]
     }
