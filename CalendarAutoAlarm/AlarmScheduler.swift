@@ -17,8 +17,9 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         super.init()
         center.delegate = self
         // Register the CALENDAR_ALARM notification category.
-        // The Watch companion app's WKNotificationScene listens for this category
-        // so it can intercept the notification and play the custom haptic pattern.
+        // The Watch companion app's UNUserNotificationCenterDelegate receives this
+        // category when a notification arrives while the Watch app is in the foreground,
+        // triggering the custom 3·1·2 haptic pattern.
         let alarmCategory = UNNotificationCategory(
             identifier: "CALENDAR_ALARM",
             actions: [],

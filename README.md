@@ -112,6 +112,54 @@ Xcode builds the iOS app, embeds the Watch app inside it, and automatically push
 the Watch companion to your paired Apple Watch in the same run operation. You will
 see both apps appear on their respective devices.
 
+### Verifying the Watch app is installed and working
+
+**Step 1 — Confirm the app appears on your Watch:**
+
+1. On your iPhone, open the **Watch** app.
+2. Scroll down to **Installed on Apple Watch**.
+3. Look for **Calendar Alarms** in the list.  
+   If it isn't there, run ⌘R from Xcode again (iOS scheme → iPhone destination) and wait
+   for the spinner in the Watch app to finish syncing.
+
+**Step 2 — Test the haptic from the Watch:**
+
+1. On the Watch, press the **Digital Crown** to open the app grid.
+2. Find and tap **Calendar Alarms** (yellow bell icon).
+3. Tap the **"Test Haptic"** button.  
+   You should feel the "3-thud-2" vibration sequence immediately.
+
+If you feel nothing, the Watch app isn't running or haptics are disabled
+(check **Watch → Settings → Sounds & Haptics → Haptic Alerts**).
+
+---
+
+### When does the Watch vibrate for alarms?
+
+> **Key rule: the Watch only receives notifications when your iPhone screen is
+> locked/off.**
+>
+> If your iPhone is unlocked and active when an alarm fires, iOS delivers the
+> notification to the iPhone only — the Watch does NOT vibrate. This is standard
+> iOS/watchOS behaviour that applies to all apps, not just this one.
+
+**To reliably get Watch haptics from your alarms:**
+
+- **Lock your iPhone** before the alarm fire time.  
+  Press the side button to lock it, then wear your Watch normally.
+- Or put the iPhone face-down (auto-lock applies).
+- Or enable **Wrist Detection** on the Watch: Watch app → Passcode → Wrist Detection ON.
+  With wrist detection on, notifications go to Watch when it's on your wrist even if
+  iPhone is nearby.
+
+> **Foreground vs background:** The custom "3·1·2" haptic pattern only plays when you
+> have the Calendar Alarms Watch app **open on screen** at the moment the alarm fires.
+> When the Watch app is in the background (normal use case — Watch is on your wrist,
+> screen off) the system delivers the notification with the **standard Watch haptic buzz**
+> automatically. Both cases work; only the foreground case uses the custom pattern.
+
+---
+
 ### Trusting the developer certificate on Watch (free Apple ID)
 
 With a free personal Apple ID, watchOS requires a separate trust step beyond the
