@@ -12,6 +12,8 @@
     <string>6.0</string>
     <key>CFBundleName</key>
     <string>$(PRODUCT_NAME)</string>
+    <key>CFBundleDisplayName</key>
+    <string>Calendar Alarms</string>
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
@@ -21,14 +23,14 @@
 
     <!-- iOS ≤ 16 calendar permission prompt -->
     <key>NSCalendarsUsageDescription</key>
-    <string>CalendarAutoAlarm reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
+    <string>Calendar Alarms reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
 
     <!-- iOS 17+ full-access calendar permission prompt -->
     <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>CalendarAutoAlarm reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
+    <string>Calendar Alarms reads your calendar events to schedule alarms from alarm: directives in event notes.</string>
 
     <key>NSUserNotificationsUsageDescription</key>
-    <string>CalendarAutoAlarm sends you alarm notifications before your calendar events.</string>
+    <string>Calendar Alarms sends you alarm notifications before your calendar events.</string>
 
     <key>UILaunchScreen</key>
     <dict/>
