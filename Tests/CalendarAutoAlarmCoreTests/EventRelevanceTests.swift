@@ -16,14 +16,11 @@ final class EventRelevanceTests: XCTestCase {
     /// Applies the same filter logic as ``AppleCalendarService.isRelevant(_:now:)``.
     private func isRelevant(_ event: CalendarEvent, now: Date) -> Bool {
         guard event.startDate > now else { return false }
-        if !event.alarmSpecs.isEmpty {
-            let hasUpcomingAlarm = event.alarmSpecs.contains { spec in
-                let fireDate = event.startDate.addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
-                return fireDate > now
-            }
-            return hasUpcomingAlarm
+        guard !event.alarmSpecs.isEmpty else { return false }
+        return event.alarmSpecs.contains { spec in
+            let fireDate = event.startDate.addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
+            return fireDate > now
         }
-        return true
     }
 
     private func event(
@@ -53,9 +50,9 @@ final class EventRelevanceTests: XCTestCase {
         XCTAssertFalse(isRelevant(e, now: now))
     }
 
-    func testFutureEventNoAlarms_isKept() {
+    func testFutureEventNoAlarms_isFiltered() {
         let e = event(startOffset: 3600)   // starts in 1 hour, no alarms
-        XCTAssertTrue(isRelevant(e, now: now))
+        XCTAssertFalse(isRelevant(e, now: now))
     }
 
     // MARK: - Events with upcoming alarms

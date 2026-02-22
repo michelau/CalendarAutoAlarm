@@ -114,8 +114,8 @@ struct EventRow: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
 
-            // Live countdown per alarm
-            ForEach(Array(event.alarmSpecs.enumerated()), id: \.offset) { _, spec in
+            // Live countdown per alarm — past alarms omitted, remaining sorted soonest first
+            ForEach(upcomingAlarms, id: \.offset) { offset, spec in
                 let fireDate = event.startDate
                     .addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
                 HStack(spacing: 4) {
@@ -128,6 +128,23 @@ struct EventRow: View {
             }
         }
         .padding(.vertical, 4)
+    }
+
+    /// Alarm specs that haven't fired yet, sorted by fire time (soonest first).
+    private var upcomingAlarms: [(offset: Int, spec: AlarmSpec)] {
+        let now = Date()
+        return event.alarmSpecs
+            .enumerated()
+            .map { (offset: $0.offset, spec: $0.element) }
+            .filter { item in
+                let fireDate = event.startDate
+                    .addingTimeInterval(-Double(item.spec.offsetBeforeEventSeconds))
+                return fireDate > now
+            }
+            .sorted { a, b in
+                // Larger offset fires earlier (e.g. 1h before fires before 30m before)
+                a.spec.offsetBeforeEventSeconds > b.spec.offsetBeforeEventSeconds
+            }
     }
 
     @ViewBuilder

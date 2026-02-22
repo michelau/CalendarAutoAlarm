@@ -41,8 +41,8 @@ programmatically.
 This app uses **time-sensitive local notifications** instead, which behave as close to a
 real alarm as iOS allows for third-party apps:
 
-* **Break through Focus modes and Do Not Disturb** (`interruptionLevel = .timeSensitive`)
-* **Play the critical alert sound** at the scheduled time
+* **Break through Focus modes and Do Not Disturb** (via the `time-sensitive` entitlement)
+* **Play the device's ringtone sound** — louder and more alarm-like than a notification ping
 * **Stay in your notification centre** after the banner appears
 
 > **What about the silent/ringer switch?**  
@@ -51,6 +51,10 @@ real alarm as iOS allows for third-party apps:
 > it for medical devices, home security, and emergency services. It is not available for
 > personal calendar apps regardless of Apple Developer Program membership tier.  
 > **Workaround:** keep your phone on ring mode (not silent) for alarms you care about.
+
+> **The `time-sensitive` entitlement used here is NOT the same as Critical Alerts.**  
+> It requires no Apple approval and works immediately for personal sideloading with any
+> Apple ID. It only enables Focus/DND bypass, not silent-switch bypass.
 
 ### Make notifications stay on screen like a real alarm
 

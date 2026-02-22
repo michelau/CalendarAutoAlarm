@@ -19,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		0781E4631759A50AF4B534B6 /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6789012345678 /* CalendarAutoAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CalendarAutoAlarm.entitlements; sourceTree = "<group>"; };
 		3EB4F141A49C9E3C145C6BE8 /* EventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListView.swift; sourceTree = "<group>"; };
 		7BCCADA3021C07D12E775CB5 /* CalendarAutoAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarAutoAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5EED8A2ED0BAE0359DC140A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				DE526533379910F7E0491C4E /* Info.plist */,
+				A1B2C3D4E5F6789012345678 /* CalendarAutoAlarm.entitlements */,
 				E9C2B90A5DCA5D29F2BEC039 /* Assets.xcassets */,
 				C3CF72C414E5B9ECAE73C59E /* CalendarAutoAlarmApp.swift */,
 				B5EED8A2ED0BAE0359DC140A /* ContentView.swift */,
@@ -222,6 +224,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CalendarAutoAlarm/CalendarAutoAlarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3WQB8PKTN4;
@@ -297,6 +300,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CalendarAutoAlarm/CalendarAutoAlarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3WQB8PKTN4;

@@ -21,11 +21,14 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
     // MARK: - Permission
 
     /// Requests authorization to display alerts, play sounds, and deliver time-sensitive notifications.
+    ///
+    /// The time-sensitive capability itself is granted via the entitlement in
+    /// `CalendarAutoAlarm.entitlements` — not via a `requestAuthorization` option.
     /// Call once at app launch.
     func requestNotificationPermission() async {
         do {
             let granted = try await center.requestAuthorization(
-                options: [.alert, .sound, .badge, .timeSensitive]
+                options: [.alert, .sound, .badge]
             )
             if !granted {
                 print("CalendarAutoAlarm: Notification permission was denied.")
@@ -79,10 +82,12 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         let content = UNMutableNotificationContent()
         content.title             = spec.name ?? "Upcoming Event"
         content.body              = alarmBody(event: event, spec: spec)
-        content.sound             = .defaultCritical
+        // .defaultRingtone plays the device's ringtone — louder and more alarm-like
+        // than a notification ping, and available without any special entitlement.
+        content.sound             = .defaultRingtone
         // Time-sensitive level breaks through Focus modes and Do Not Disturb.
-        // NOTE: it does NOT bypass the ringer/silent switch — iOS reserves that
-        // capability (Critical Alerts) exclusively for medical/safety apps approved by Apple.
+        // Requires com.apple.developer.usernotifications.time-sensitive entitlement
+        // (no Apple approval needed; works for personal sideloading).
         content.interruptionLevel = .timeSensitive
 
         // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator

@@ -54,9 +54,12 @@ final class AppleCalendarService {
     private func convertEvent(_ ek: EKEvent) -> CalendarEvent {
         let notes      = ek.notes
         let alarmSpecs = notes.map { alarmParser.parse(description: $0) } ?? []
+        // EKEvent.eventIdentifier is shared across all occurrences of a recurring event.
+        // Append the start timestamp to guarantee a unique ID per occurrence.
+        let uniqueId   = "\(ek.eventIdentifier)_\(Int(ek.startDate.timeIntervalSinceReferenceDate))"
 
         return CalendarEvent(
-            id:          ek.eventIdentifier,
+            id:          uniqueId,
             title:       ek.title ?? "(No title)",
             startDate:   ek.startDate,
             endDate:     ek.endDate,
@@ -69,24 +72,19 @@ final class AppleCalendarService {
     ///
     /// An event is considered irrelevant when:
     /// - Its start time is already in the past (the event has already begun), **or**
-    /// - It has one or more alarm directives but every alarm's fire time has already passed
-    ///   (there is no alarm left to schedule for it).
-    ///
-    /// Events with no alarm directives that haven't started yet are always kept so the
-    /// full upcoming calendar picture remains visible.
+    /// - It has no `alarm:` directives, **or**
+    /// - Every alarm's fire time has already passed (nothing left to schedule).
     func isRelevant(_ event: CalendarEvent, now: Date) -> Bool {
         // Drop events that have already started.
         guard event.startDate > now else { return false }
 
-        // If there are alarm specs, at least one alarm must still be in the future.
-        if !event.alarmSpecs.isEmpty {
-            let hasUpcomingAlarm = event.alarmSpecs.contains { spec in
-                let fireDate = event.startDate.addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
-                return fireDate > now
-            }
-            return hasUpcomingAlarm
-        }
+        // Only show events that have at least one alarm directive.
+        guard !event.alarmSpecs.isEmpty else { return false }
 
-        return true
+        // At least one alarm must still be in the future.
+        return event.alarmSpecs.contains { spec in
+            let fireDate = event.startDate.addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
+            return fireDate > now
+        }
     }
 }
