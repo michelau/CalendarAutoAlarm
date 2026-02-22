@@ -34,7 +34,7 @@ for each alarm it finds. Pull-to-refresh or the ↺ button re-syncs at any time.
 ## Requirements
 
 * Xcode 15+
-* iOS 16+ device or simulator
+* iOS 17+ device or simulator
 * Calendar permission granted to the app
 
 ---
@@ -106,7 +106,7 @@ swift test
 
 ### Prerequisites
 
-* An iPhone running **iOS 16 or later**
+* An iPhone running **iOS 17 or later**
 * A Mac with **Xcode 15+**
 * A USB or USB-C cable to connect the iPhone to the Mac
 * An **Apple ID** (a free personal Apple ID is enough for 7-day sideloading;

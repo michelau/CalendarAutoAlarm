@@ -42,11 +42,7 @@ final class AppleCalendarService {
     // MARK: - Private
 
     private func requestAccess() async throws -> Bool {
-        if #available(iOS 17, *) {
-            return try await store.requestFullAccessToEvents()
-        } else {
-            return try await store.requestAccess(to: .event)
-        }
+        return try await store.requestFullAccessToEvents()
     }
 
     private func convertEvent(_ ek: EKEvent) -> CalendarEvent {
