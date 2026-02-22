@@ -61,14 +61,20 @@ for each alarm it finds. Pull-to-refresh or the ↺ button re-syncs at any time.
    open CalendarAutoAlarm.xcodeproj
    ```
 
-3. **Select a simulator**  
+3. **Set a signing team** *(required once — even for Simulator)*  
+   1. In the Project Navigator click **CalendarAutoAlarm** (the project, not a folder).
+   2. Select the **CalendarAutoAlarm** target → *Signing & Capabilities* tab.
+   3. Under *Team*, choose your Apple ID from the dropdown.
+      Add it first via *Xcode → Settings → Accounts* if it isn't listed.
+
+4. **Select a simulator**  
    In the Xcode toolbar, click the scheme/destination selector (next to the Run button) and choose
    an iPhone simulator — e.g. **iPhone 16 (iOS 18.x)**.
 
-4. **Build and run** — press **⌘R** (or *Product → Run*).  
+5. **Build and run** — press **⌘R** (or *Product → Run*).  
    The Simulator will launch and the app will open automatically.
 
-5. **Grant Calendar access** when the permission dialog appears.  
+6. **Grant Calendar access** when the permission dialog appears.  
    If you dismiss it accidentally, re-enable access in  
    *Simulator → Settings → Privacy & Security → Calendars → CalendarAutoAlarm*.
 
