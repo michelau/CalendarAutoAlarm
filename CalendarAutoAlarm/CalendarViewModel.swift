@@ -15,6 +15,7 @@ final class CalendarViewModel: ObservableObject {
 
     /// Requests calendar access (if not yet determined) then re-fetches events for the next 7 days.
     func refresh() async {
+        guard !isLoading else { return }   // Prevent concurrent refreshes fighting the refresh control
         isLoading       = true
         errorMessage    = nil
         permissionDenied = false
