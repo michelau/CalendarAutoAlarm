@@ -20,6 +20,7 @@ CA000000000000000000B002 /* AlarmNotificationController.swift in Sources */ = {i
 CA000000000000000000B003 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA000000000000000000A005 /* NotificationView.swift */; };
 CA000000000000000000B004 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA000000000000000000A006 /* HapticManager.swift */; };
 CA000000000000000000B005 /* CalendarAlarmsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = CA000000000000000000A001 /* CalendarAlarmsWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+CA000000000000000000B006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA000000000000000000A007 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@ CA000000000000000000A003 /* CalendarAlarmsWatchApp.swift */ = {isa = PBXFileRefe
 CA000000000000000000A004 /* AlarmNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmNotificationController.swift; sourceTree = "<group>"; };
 CA000000000000000000A005 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 CA000000000000000000A006 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+CA000000000000000000A007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 
@@ -128,6 +130,7 @@ CA000000000000000000D001 /* CalendarAlarmsWatch */ = {
 isa = PBXGroup;
 children = (
 CA000000000000000000A002 /* Info.plist */,
+CA000000000000000000A007 /* Assets.xcassets */,
 CA000000000000000000A003 /* CalendarAlarmsWatchApp.swift */,
 CA000000000000000000A004 /* AlarmNotificationController.swift */,
 CA000000000000000000A005 /* NotificationView.swift */,
@@ -230,6 +233,7 @@ CA000000000000000000C002 /* Resources */ = {
 isa = PBXResourcesBuildPhase;
 buildActionMask = 2147483647;
 files = (
+CA000000000000000000B006 /* Assets.xcassets in Resources */,
 );
 runOnlyForDeploymentPostprocessing = 0;
 };
