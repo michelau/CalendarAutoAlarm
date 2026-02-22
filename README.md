@@ -67,28 +67,49 @@ With *Alerts* selected the notification remains on screen and requires a tap to 
 
 ---
 
-## Apple Watch
+## Apple Watch — custom haptic pattern
 
-No separate Watch app is needed. iOS automatically mirrors notifications to a paired
-Apple Watch — the Watch will buzz and chime with the alarm at the right time, just like
-any other app notification.
+The companion Watch app (`CalendarAlarmsWatch` target, inside the same Xcode project)
+intercepts alarm notifications on the Watch and plays a **custom haptic sequence**
+instead of the standard single buzz.
 
-**What you get out of the box (no Watch app required):**
-- Standard haptic tap on the wrist
-- Notification sound through Watch speaker
-- Title + body text on Watch face
+> A watchOS companion app is **not** a separate `.xcodeproj`.  
+> It is a separate **target** within `CalendarAutoAlarm.xcodeproj` — exactly the same
+> structure Xcode generates when you do *File → Add Target → Watch App*.  
+> The Watch bundle is embedded inside the iOS app bundle at build time; when you install
+> the iOS app on your iPhone, Xcode/the OS automatically installs the Watch counterpart
+> on your paired Apple Watch.
 
-**Custom haptic pattern (e.g. a distinct "alarm" vibration):**  
-This requires a watchOS companion app target. It is not included in this project — the
-notification mirroring is sufficient for most use cases. Adding a Watch app target is a
-future enhancement.
+### The "3 · 1 · 2" alarm haptic
+
+The pattern is designed to be unmistakably distinct from every other Watch haptic:
+
+```
+tap  tap  tap  ·····  THUD  ·  tap  tap
+0.0  0.2  0.4         1.2      1.9  2.1  (seconds)
+```
+
+- **Three quick taps** — announces the alarm
+- **One firm thud** (`success` haptic) — the signature beat; no other iOS notification uses this shape
+- **Two closing taps** — confirms the sequence is done
+
+The "3-thud-2" rhythm is easy to learn within a few days — the same way people quickly learn to distinguish a phone-call buzz from a text-message buzz. The `success` thud in the middle is the key distinguishing feature.
+
+### Building the Watch target
+
+In Xcode, set the **CalendarAlarmsWatch** scheme (next to the play button) and choose
+your Apple Watch as the destination. Press **⌘R** — Xcode will install the Watch app
+automatically on your paired Watch while it installs the iOS app on the phone. To build
+both in one step, select the **CalendarAutoAlarm** scheme with your iPhone as the
+destination; the Watch app is embedded and deployed automatically.
 
 ---
 
 ## Requirements
 
 * Xcode 15+
-* iOS 17+ device or simulator
+* iOS 17+ device or Simulator (iPhone app)
+* watchOS 10+ Apple Watch (companion Watch app, optional)
 * Calendar permission granted to the app
 
 ---
@@ -243,7 +264,13 @@ CalendarAutoAlarm/
 │   ├── AppleCalendarService.swift         # EventKit-based calendar access
 │   ├── AlarmScheduler.swift               # Schedules UNUserNotification alarms
 │   └── Info.plist                         # App configuration & permissions
-└── CalendarAutoAlarm.xcodeproj/           # Xcode project
+├── CalendarAlarmsWatch/                   # watchOS companion app target
+│   ├── CalendarAlarmsWatchApp.swift       # @main Watch app + WKNotificationScene
+│   ├── AlarmNotificationController.swift  # Intercepts alarm notifications, fires haptic
+│   ├── NotificationView.swift             # SwiftUI view shown on Watch face
+│   ├── HapticManager.swift                # Custom "3·1·2" haptic pattern
+│   └── Info.plist                         # Watch app configuration
+└── CalendarAutoAlarm.xcodeproj/           # Xcode project (both targets)
 ```
 
 ---

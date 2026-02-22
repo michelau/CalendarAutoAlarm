@@ -16,6 +16,16 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
     override init() {
         super.init()
         center.delegate = self
+        // Register the CALENDAR_ALARM notification category.
+        // The Watch companion app's WKNotificationScene listens for this category
+        // so it can intercept the notification and play the custom haptic pattern.
+        let alarmCategory = UNNotificationCategory(
+            identifier: "CALENDAR_ALARM",
+            actions: [],
+            intentIdentifiers: [],
+            options: []
+        )
+        center.setNotificationCategories([alarmCategory])
     }
 
     // MARK: - Permission
@@ -77,12 +87,13 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         guard secondsUntilFire > 0 else { return }   // Don't schedule past alarms
 
         let content = UNMutableNotificationContent()
-        content.title = spec.name ?? "Upcoming Event"
-        content.body  = alarmBody(event: event, spec: spec)
-        // .defaultRingtone plays the device's ringtone — louder and more alarm-like
-        // than a standard notification ping, and requires no special entitlement.
-        // The notification also mirrors automatically to a paired Apple Watch.
-        content.sound = .defaultRingtone
+        content.title              = spec.name ?? "Upcoming Event"
+        content.body               = alarmBody(event: event, spec: spec)
+        // .defaultRingtone plays the device's ringtone — louder than a notification ping.
+        content.sound              = .defaultRingtone
+        // Tells the Watch companion app which WKNotificationScene to activate so it
+        // can play the custom haptic pattern instead of the standard notification buzz.
+        content.categoryIdentifier = "CALENDAR_ALARM"
 
         // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator
         // than UNCalendarNotificationTrigger (avoids timezone/date-component edge cases).
