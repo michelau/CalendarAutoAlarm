@@ -38,28 +38,29 @@ the built-in Clock app — that alarm store is private to Apple. No third-party 
 (including Google Calendar, Fantastical, or Reminders) can create Clock alarms
 programmatically.
 
-This app uses **Critical Alert notifications** instead, which behave as close to a real
-alarm as iOS allows for third-party apps:
+This app uses **time-sensitive local notifications** instead, which behave as close to a
+real alarm as iOS allows for third-party apps:
 
-* **Sound plays even when the ringer/silent switch is off** — Critical Alerts bypass the silent switch, just like Clock alarms
-* **Break through Focus modes and Do Not Disturb**
-* **Stay in your notification centre** after the banner appears (not just a transient banner)
+* **Break through Focus modes and Do Not Disturb** (`interruptionLevel = .timeSensitive`)
+* **Play the critical alert sound** at the scheduled time
+* **Stay in your notification centre** after the banner appears
+
+> **What about the silent/ringer switch?**  
+> Time-sensitive notifications do **not** bypass the ringer/silent switch.  
+> Only Apple's *Critical Alerts* entitlement allows that — and Apple exclusively reserves
+> it for medical devices, home security, and emergency services. It is not available for
+> personal calendar apps regardless of Apple Developer Program membership tier.  
+> **Workaround:** keep your phone on ring mode (not silent) for alarms you care about.
 
 ### Make notifications stay on screen like a real alarm
 
 By default iOS shows notifications as *banners* (disappear after a few seconds).
-To make them stay on screen until you dismiss them — exactly like a Clock alarm — change
-the notification style to **Alerts**:
+To make them stay on screen until you dismiss them — like a Clock alarm — change the
+notification style to **Alerts**:
 
 > **Settings → Notifications → Calendar Alarms → Notification Style → Alerts**
 
-With *Alerts* selected, the notification will remain on screen, sound will play through
-silent mode, and you must tap **Dismiss** (or the app) to clear it.
-
-> **Note for App Store distribution:** The Critical Alerts entitlement requires explicit
-> Apple approval for App Store submissions. Personal/development builds work without any
-> special approval. Apply at:
-> https://developer.apple.com/contact/request/notifications-critical-alerts-entitlement/
+With *Alerts* selected the notification remains on screen and requires a tap to dismiss.
 
 ---
 

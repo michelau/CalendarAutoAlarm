@@ -20,16 +20,12 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
 
     // MARK: - Permission
 
-    /// Requests authorization to display alerts, play sounds, and deliver critical alert notifications.
-    ///
-    /// Critical alerts play sound and vibrate even when the ringer/silent switch is off.
-    /// The `criticalAlert` option requires the Critical Alerts entitlement; on a personal
-    /// development team this works automatically. App Store builds need explicit Apple approval.
+    /// Requests authorization to display alerts, play sounds, and deliver time-sensitive notifications.
     /// Call once at app launch.
     func requestNotificationPermission() async {
         do {
             let granted = try await center.requestAuthorization(
-                options: [.alert, .sound, .badge, .timeSensitive, .criticalAlert]
+                options: [.alert, .sound, .badge, .timeSensitive]
             )
             if !granted {
                 print("CalendarAutoAlarm: Notification permission was denied.")
@@ -84,10 +80,10 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         content.title             = spec.name ?? "Upcoming Event"
         content.body              = alarmBody(event: event, spec: spec)
         content.sound             = .defaultCritical
-        // Critical interruption level: plays sound/vibration even with silent switch on,
-        // and breaks through Focus modes and Do Not Disturb.
-        // Requires the Critical Alerts entitlement (CalendarAutoAlarm.entitlements).
-        content.interruptionLevel = .critical
+        // Time-sensitive level breaks through Focus modes and Do Not Disturb.
+        // NOTE: it does NOT bypass the ringer/silent switch — iOS reserves that
+        // capability (Critical Alerts) exclusively for medical/safety apps approved by Apple.
+        content.interruptionLevel = .timeSensitive
 
         // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator
         // than UNCalendarNotificationTrigger (avoids timezone/date-component edge cases).
