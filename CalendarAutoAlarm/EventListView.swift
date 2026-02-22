@@ -62,21 +62,25 @@ struct EventListView: View {
         .navigationTitle("Calendar Alarms")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                if !viewModel.isLoading {
-                    Button {
-                        Task { await viewModel.refresh() }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
+                Group {
+                    if !viewModel.isLoading {
+                        Button {
+                            Task { await viewModel.refresh() }
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                        }
                     }
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                if viewModel.scheduledCount > 0 {
-                    Label("\(viewModel.scheduledCount) alarm\(viewModel.scheduledCount == 1 ? "" : "s")",
-                          systemImage: "bell.fill")
-                        .labelStyle(.titleAndIcon)
-                        .font(.caption)
-                        .foregroundStyle(.accentColor)
+                Group {
+                    if viewModel.scheduledCount > 0 {
+                        Label("\(viewModel.scheduledCount) alarm\(viewModel.scheduledCount == 1 ? "" : "s")",
+                              systemImage: "bell.fill")
+                            .labelStyle(.titleAndIcon)
+                            .font(.caption)
+                            .foregroundStyle(Color.accentColor)
+                    }
                 }
             }
         }
@@ -106,7 +110,7 @@ struct EventRow: View {
             if !event.alarmSpecs.isEmpty {
                 HStack(spacing: 4) {
                     Image(systemName: "bell.fill")
-                        .foregroundStyle(.accentColor)
+                        .foregroundStyle(Color.accentColor)
                         .font(.caption)
                     ForEach(Array(event.alarmSpecs.enumerated()), id: \.offset) { _, spec in
                         Text(alarmLabel(spec))
