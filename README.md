@@ -38,23 +38,22 @@ the built-in Clock app — that alarm store is private to Apple. No third-party 
 (including Google Calendar, Fantastical, or Reminders) can create Clock alarms
 programmatically.
 
-This app uses **time-sensitive local notifications** instead, which behave as close to a
-real alarm as iOS allows for third-party apps:
+This app uses **local notifications** instead:
 
-* **Break through Focus modes and Do Not Disturb** (via the `time-sensitive` entitlement)
-* **Play the device's ringtone sound** — louder and more alarm-like than a notification ping
+* **Play the device's ringtone sound** (louder and more attention-grabbing than a ping)
+* **Mirror automatically to a paired Apple Watch** (haptic + sound, no Watch app needed)
 * **Stay in your notification centre** after the banner appears
 
-> **What about the silent/ringer switch?**  
-> Time-sensitive notifications do **not** bypass the ringer/silent switch.  
-> Only Apple's *Critical Alerts* entitlement allows that — and Apple exclusively reserves
-> it for medical devices, home security, and emergency services. It is not available for
-> personal calendar apps regardless of Apple Developer Program membership tier.  
-> **Workaround:** keep your phone on ring mode (not silent) for alarms you care about.
+> **Focus modes / Do Not Disturb:**  
+> Without a paid Apple Developer Program membership, the "Time Sensitive Notifications"
+> capability is unavailable (personal teams don't support it). This means alarms will be
+> suppressed by Focus modes and Do Not Disturb just like any other notification.  
+> **Workaround:** disable Focus mode, or add *Calendar Alarms* to your Focus's allowed
+> apps under **Settings → Focus → [your focus] → Allowed Notifications**.
 
-> **The `time-sensitive` entitlement used here is NOT the same as Critical Alerts.**  
-> It requires no Apple approval and works immediately for personal sideloading with any
-> Apple ID. It only enables Focus/DND bypass, not silent-switch bypass.
+> **Silent/ringer switch:**  
+> Notifications do not bypass the silent switch. Keep your phone on ring mode for alarms
+> you care about.
 
 ### Make notifications stay on screen like a real alarm
 
@@ -65,6 +64,24 @@ notification style to **Alerts**:
 > **Settings → Notifications → Calendar Alarms → Notification Style → Alerts**
 
 With *Alerts* selected the notification remains on screen and requires a tap to dismiss.
+
+---
+
+## Apple Watch
+
+No separate Watch app is needed. iOS automatically mirrors notifications to a paired
+Apple Watch — the Watch will buzz and chime with the alarm at the right time, just like
+any other app notification.
+
+**What you get out of the box (no Watch app required):**
+- Standard haptic tap on the wrist
+- Notification sound through Watch speaker
+- Title + body text on Watch face
+
+**Custom haptic pattern (e.g. a distinct "alarm" vibration):**  
+This requires a watchOS companion app target. It is not included in this project — the
+notification mirroring is sufficient for most use cases. Adding a Watch app target is a
+future enhancement.
 
 ---
 
@@ -252,11 +269,11 @@ swift test
 
 ## Troubleshooting
 
-### "Entitlement `com.apple.developer.usernotifications.critical-alerts` requires Apple approval"
+### "Personal development teams do not support the Time Sensitive Notifications capability"
 
 This error means Xcode is using a **stale build cache** from a previous version of the
-project that briefly included the Critical Alerts entitlement. The entitlement has since
-been removed from the repo entirely.
+project that briefly included the `time-sensitive` entitlement. That entitlement has since
+been removed from the repo entirely (personal/free Apple ID teams cannot use it).
 
 **Fix — two steps:**
 
@@ -271,6 +288,12 @@ been removed from the repo entirely.
    **Product → Clean Build Folder** (⌘⇧K)
 
 Then press **⌘R** to build and run. The error will not reappear.
+
+### "Entitlement `com.apple.developer.usernotifications.critical-alerts` requires Apple approval"
+
+Same fix as above — `git pull` then **Product → Clean Build Folder** (⌘⇧K).  
+Both the `critical-alerts` and `time-sensitive` entitlements have been removed from the
+project. If Xcode still shows this, the build cache still has a stale copy.
 
 ### "Signing for CalendarAutoAlarm requires a development team"
 
