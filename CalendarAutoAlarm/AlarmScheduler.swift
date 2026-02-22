@@ -20,11 +20,13 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
 
     // MARK: - Permission
 
-    /// Requests authorization to display alerts and play sounds.
+    /// Requests authorization to display alerts, play sounds, and deliver time-sensitive notifications.
     /// Call once at app launch.
     func requestNotificationPermission() async {
         do {
-            let granted = try await center.requestAuthorization(options: [.alert, .sound, .badge])
+            let granted = try await center.requestAuthorization(
+                options: [.alert, .sound, .badge, .timeSensitive]
+            )
             if !granted {
                 print("CalendarAutoAlarm: Notification permission was denied.")
             }
@@ -35,14 +37,14 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
 
     // MARK: - UNUserNotificationCenterDelegate
 
-    /// Show notification banners (with sound and badge) even when the app is in the foreground.
-    /// This is essential for Simulator testing where the app is always in the foreground.
+    /// Deliver the notification even when the app is in the foreground.
+    /// Also adds it to the notification list so it persists after the banner auto-dismisses.
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([.banner, .sound, .badge])
+        completionHandler([.banner, .list, .sound, .badge])
     }
 
     // MARK: - Scheduling
@@ -75,9 +77,12 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         guard secondsUntilFire > 0 else { return }   // Don't schedule past alarms
 
         let content = UNMutableNotificationContent()
-        content.title  = spec.name ?? "Upcoming Event"
-        content.body   = alarmBody(event: event, spec: spec)
-        content.sound  = .defaultCritical
+        content.title             = spec.name ?? "Upcoming Event"
+        content.body              = alarmBody(event: event, spec: spec)
+        content.sound             = .defaultCritical
+        // Time-sensitive interruption level cuts through Focus modes and Do Not Disturb,
+        // making this behave as close to a Clock alarm as iOS allows for third-party apps.
+        content.interruptionLevel = .timeSensitive
 
         // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator
         // than UNCalendarNotificationTrigger (avoids timezone/date-component edge cases).

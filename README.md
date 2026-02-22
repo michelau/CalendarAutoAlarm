@@ -31,6 +31,32 @@ for each alarm it finds. Pull-to-refresh or the ↺ button re-syncs at any time.
 
 ---
 
+## Why it uses notifications, not Clock alarms
+
+iOS does **not** expose any public API that allows third-party apps to create alarms in
+the built-in Clock app — that alarm store is private to Apple. No third-party app
+(including Google Calendar, Fantastical, or Reminders) can create Clock alarms
+programmatically.
+
+This app does the next best thing: it delivers **time-sensitive local notifications** that:
+
+* **Break through Focus modes and Do Not Disturb** (using `interruptionLevel = .timeSensitive`)
+* **Play the critical alert sound** at the scheduled time
+* **Stay in your notification centre** after the banner appears (not just a transient banner)
+
+### Make notifications stay on screen like a real alarm
+
+By default iOS shows notifications as *banners* (disappear after a few seconds).
+To make them stay on screen until you dismiss them — exactly like a Clock alarm — change
+the notification style to **Alerts**:
+
+> **Settings → Notifications → Calendar Alarms → Notification Style → Alerts**
+
+With *Alerts* selected, the notification will remain on screen, sound will play, and you
+must tap **Dismiss** (or the app) to clear it, matching the feel of a Clock alarm.
+
+---
+
 ## Requirements
 
 * Xcode 15+
