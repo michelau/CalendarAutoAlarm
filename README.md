@@ -108,8 +108,8 @@ destination; the Watch app is embedded and deployed automatically.
 ## Requirements
 
 * Xcode 15+
-* iOS 17+ device or Simulator (iPhone app)
-* watchOS 10+ Apple Watch (companion Watch app, optional)
+* iOS 26+ device or Simulator (iPhone app)
+* watchOS 26+ Apple Watch (companion Watch app, optional)
 * Calendar permission granted to the app
 
 ---
@@ -187,7 +187,7 @@ swift test
 
 ### Prerequisites
 
-* An iPhone running **iOS 17 or later**
+* An iPhone running **iOS 26 or later**
 * A Mac with **Xcode 15+**
 * A USB or USB-C cable to connect the iPhone to the Mac
 * An **Apple ID** (a free personal Apple ID is enough for 7-day sideloading;
