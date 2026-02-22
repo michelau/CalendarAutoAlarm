@@ -73,12 +73,11 @@ The companion Watch app (`CalendarAlarmsWatch` target, inside the same Xcode pro
 intercepts alarm notifications on the Watch and plays a **custom haptic sequence**
 instead of the standard single buzz.
 
-> A watchOS companion app is **not** a separate `.xcodeproj`.  
-> It is a separate **target** within `CalendarAutoAlarm.xcodeproj` — exactly the same
-> structure Xcode generates when you do *File → Add Target → Watch App*.  
-> The Watch bundle is embedded inside the iOS app bundle at build time; when you install
-> the iOS app on your iPhone, Xcode/the OS automatically installs the Watch counterpart
-> on your paired Apple Watch.
+Tested on **Apple Watch Series 7** (watchOS 26.3).
+
+> **Architecture note:** The Watch app is a separate *target* within
+> `CalendarAutoAlarm.xcodeproj` — not a separate `.xcodeproj`.  The Watch bundle
+> is embedded inside the iOS app bundle at build time.
 
 ### The "3 · 1 · 2" alarm haptic
 
@@ -93,23 +92,48 @@ tap  tap  tap  ·····  THUD  ·  tap  tap
 - **One firm thud** (`success` haptic) — the signature beat; no other iOS notification uses this shape
 - **Two closing taps** — confirms the sequence is done
 
-The "3-thud-2" rhythm is easy to learn within a few days — the same way people quickly learn to distinguish a phone-call buzz from a text-message buzz. The `success` thud in the middle is the key distinguishing feature.
+The "3-thud-2" rhythm is easy to learn within a few days — the same way people quickly
+learn to distinguish a phone-call buzz from a text-message buzz.
 
-### Building the Watch target
+### How to install the Watch app
 
-In Xcode, set the **CalendarAlarmsWatch** scheme (next to the play button) and choose
-your Apple Watch as the destination. Press **⌘R** — Xcode will install the Watch app
-automatically on your paired Watch while it installs the iOS app on the phone. To build
-both in one step, select the **CalendarAutoAlarm** scheme with your iPhone as the
-destination; the Watch app is embedded and deployed automatically.
+> ⚠️ **Do NOT select the `CalendarAlarmsWatch` scheme and run it directly.**  
+> Running the Watch scheme alone bypasses the companion relationship and causes
+> code-signing failures with personal/free Apple ID teams.
+
+**The correct workflow — one step deploys both apps:**
+
+1. Make sure your iPhone is connected and your Apple Watch is paired and nearby.
+2. In the Xcode toolbar, select the **`CalendarAutoAlarm`** scheme (the iOS app).
+3. Set the **destination** to your **iPhone** (not the Watch).
+4. Press **⌘R**.
+
+Xcode builds the iOS app, embeds the Watch app inside it, and automatically pushes
+the Watch companion to your paired Apple Watch in the same run operation. You will
+see both apps appear on their respective devices.
+
+### Trusting the developer certificate on Watch (free Apple ID)
+
+With a free personal Apple ID, watchOS requires a separate trust step beyond the
+iPhone trust:
+
+1. On your **iPhone**, open the **Watch** app.
+2. Go to **General → Device Management**.
+3. Tap your Apple ID → **Trust**.
+
+*(This menu only appears after the Watch app bundle has been installed at least once —
+i.e. after running ⌘R with the iOS scheme at least once.)*
+
+If "Device Management" is not visible in the Watch app, restart both the iPhone and
+Apple Watch, then run ⌘R again from Xcode.
 
 ---
 
 ## Requirements
 
-* Xcode 15+
-* iOS 26+ device or Simulator (iPhone app)
-* watchOS 26+ Apple Watch (companion Watch app, optional)
+* Xcode 26+
+* iOS 26+ iPhone
+* watchOS 26+ Apple Watch (companion Watch app, optional — tested on Series 7)
 * Calendar permission granted to the app
 
 ---
@@ -255,19 +279,18 @@ CalendarAutoAlarm/
 │   ├── CalendarEvent.swift                # Model: calendar event with alarm specs
 │   └── GoogleCalendarService.swift        # (unused by app; kept for future use)
 ├── Tests/CalendarAutoAlarmCoreTests/
-│   └── AlarmParserTests.swift             # 29 unit tests for the alarm parser
+│   ├── AlarmParserTests.swift             # 29 unit tests for the alarm parser
+│   └── EventRelevanceTests.swift          # 10 unit tests for event filtering
 ├── CalendarAutoAlarm/                     # iOS app target
 │   ├── CalendarAutoAlarmApp.swift         # @main app entry point
 │   ├── ContentView.swift                  # Root view
-│   ├── EventListView.swift                # Upcoming events with alarm badges
+│   ├── EventListView.swift                # Upcoming events with alarm rows
 │   ├── CalendarViewModel.swift            # Fetches & holds calendar events
-│   ├── AppleCalendarService.swift         # EventKit-based calendar access
+│   ├── AppleCalendarService.swift         # EventKit-based calendar access + relevance filter
 │   ├── AlarmScheduler.swift               # Schedules UNUserNotification alarms
 │   └── Info.plist                         # App configuration & permissions
-├── CalendarAlarmsWatch/                   # watchOS companion app target
-│   ├── CalendarAlarmsWatchApp.swift       # @main Watch app + WKNotificationScene
-│   ├── AlarmNotificationController.swift  # Intercepts alarm notifications, fires haptic
-│   ├── NotificationView.swift             # SwiftUI view shown on Watch face
+├── CalendarAlarmsWatch/                   # watchOS companion app target (Series 7+)
+│   ├── CalendarAlarmsWatchApp.swift       # @main Watch app + notification delegate
 │   ├── HapticManager.swift                # Custom "3·1·2" haptic pattern
 │   └── Info.plist                         # Watch app configuration
 └── CalendarAutoAlarm.xcodeproj/           # Xcode project (both targets)
@@ -336,7 +359,14 @@ or runtime behaviour and can be safely ignored.
 
 ### "CalendarAlarmsWatch failed to launch" / Watch app exits immediately
 
-This almost always means watchOS hasn't trusted the developer certificate yet:
+**First — check you are using the correct workflow:**
+
+> Select the **`CalendarAutoAlarm`** (iOS) scheme → set destination to your **iPhone** → press **⌘R**.  
+> Do **not** select the `CalendarAlarmsWatch` scheme and run it separately.  
+> Running the Watch scheme alone bypasses companion-app signing and causes this error.
+
+If you already used the iOS scheme and the Watch app still fails, the cause is almost
+always that the developer certificate hasn't been trusted on the Watch yet:
 
 1. **Trust on iPhone first** (if you haven't already):  
    *Settings → General → VPN & Device Management → \[Your Apple ID\] → Trust*
@@ -344,11 +374,10 @@ This almost always means watchOS hasn't trusted the developer certificate yet:
 2. **Trust on Watch** — watchOS needs a separate trust step:  
    On your iPhone open the **Watch** app → *General → Device Management* →  
    tap your Apple ID → **Trust**.  
-   *(This menu only appears after the Watch app is installed at least once.)*
+   *(This menu only appears after the Watch app bundle has been installed at least once.)*
 
-3. **Clean build folder** (⌘⇧K) and re-run the **CalendarAlarmsWatch** scheme  
-   targeting your physical Watch.
+3. **Clean build folder** (⌘⇧K) and press **⌘R** again with the iOS scheme.
 
-If the app still fails to launch after trusting, try restarting both the iPhone and  
-Apple Watch, then run again from Xcode.
+If the Watch app still fails after trusting, restart both the iPhone and Apple Watch,
+then run ⌘R again from Xcode.
 

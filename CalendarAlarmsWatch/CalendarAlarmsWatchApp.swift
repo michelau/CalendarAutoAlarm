@@ -3,11 +3,9 @@ import UserNotifications
 
 /// Entry point for the Calendar Alarms Watch companion app.
 ///
-/// Notification handling uses a `UNUserNotificationCenterDelegate` held as a
-/// `@StateObject` and wired up in `.task {}` on the root view.  This avoids
-/// `@WKApplicationDelegateAdaptor` / `WKApplicationDelegate`, which initialise
-/// synchronously at app startup and can prevent the process from launching on
-/// some watchOS 26 personal-team builds.
+/// The notification delegate is wired up synchronously in `init()` so it is
+/// ready before the first SwiftUI render — avoiding any timing window where an
+/// incoming `CALENDAR_ALARM` notification could arrive before the delegate is set.
 ///
 /// When a `CALENDAR_ALARM` notification arrives while the Watch app is in the
 /// foreground, `AlarmDelegate` plays the custom haptic pattern.  When the app
@@ -15,14 +13,15 @@ import UserNotifications
 /// Watch haptic automatically.
 @main
 struct CalendarAlarmsWatchApp: App {
-    @StateObject private var alarmDelegate = AlarmDelegate()
+    private let alarmDelegate = AlarmDelegate()
+
+    init() {
+        UNUserNotificationCenter.current().delegate = alarmDelegate
+    }
 
     var body: some Scene {
         WindowGroup {
             WatchHomeView()
-                .task {
-                    UNUserNotificationCenter.current().delegate = alarmDelegate
-                }
         }
     }
 }
@@ -31,7 +30,7 @@ struct CalendarAlarmsWatchApp: App {
 
 /// Handles foreground `CALENDAR_ALARM` notifications by playing the custom
 /// haptic pattern; all other notifications use the default presentation.
-final class AlarmDelegate: NSObject, UNUserNotificationCenterDelegate, ObservableObject {
+final class AlarmDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
