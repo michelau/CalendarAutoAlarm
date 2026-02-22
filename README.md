@@ -39,16 +39,127 @@ for each alarm it finds. Pull-to-refresh or the ↺ button re-syncs at any time.
 
 ---
 
-## Setup
+## Building & running on the iOS Simulator
 
-1. Open `CalendarAutoAlarm.xcodeproj` in Xcode.
-2. Select your development team under *Signing & Capabilities*.
-3. Run on a device or simulator (**⌘R**).
-4. On first launch, grant **Calendar** access when prompted.
+### Prerequisites
+
+* macOS 13 (Ventura) or later
+* [Xcode 15](https://developer.apple.com/xcode/) or later (includes the iOS Simulator — no separate download needed)
+
+### Steps
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/michelau/CalendarAutoAlarm.git
+   cd CalendarAutoAlarm
+   ```
+
+2. **Open in Xcode**
+
+   ```bash
+   open CalendarAutoAlarm.xcodeproj
+   ```
+
+3. **Select a simulator**  
+   In the Xcode toolbar, click the scheme/destination selector (next to the Run button) and choose
+   an iPhone simulator — e.g. **iPhone 16 (iOS 18.x)**.
+
+4. **Build and run** — press **⌘R** (or *Product → Run*).  
+   The Simulator will launch and the app will open automatically.
+
+5. **Grant Calendar access** when the permission dialog appears.  
+   If you dismiss it accidentally, re-enable access in  
+   *Simulator → Settings → Privacy & Security → Calendars → CalendarAutoAlarm*.
+
+#### Adding test calendar events in the Simulator
+
+The Simulator has its own isolated calendar store.  
+To test `alarm:` directives without a physical device:
+
+1. In the Simulator, open the **Calendar** app.
+2. Tap a day and create a new event (e.g. "Morning stand-up").
+3. In the **Notes** field add an alarm directive such as `alarm: wakeup 15m`.
+4. Save the event, then return to CalendarAutoAlarm and pull down to refresh.
+
+#### Command-line build (optional)
+
+```bash
+# List available simulators
+xcrun simctl list devices available
+
+# Build for a specific simulator
+xcodebuild \
+  -project CalendarAutoAlarm.xcodeproj \
+  -scheme CalendarAutoAlarm \
+  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -configuration Debug \
+  build
+
+# Run the core-logic unit tests without Xcode (works on Linux/CI too)
+swift test
+```
+
+---
+
+## Installing & running on iPhone
+
+### Prerequisites
+
+* An iPhone running **iOS 16 or later**
+* A Mac with **Xcode 15+**
+* A USB or USB-C cable to connect the iPhone to the Mac
+* An **Apple ID** (a free personal Apple ID is enough for 7-day sideloading;
+  an [Apple Developer Program](https://developer.apple.com/programs/) membership
+  ($99/year) removes the 7-day expiry and allows distribution via TestFlight or the App Store)
+
+### Steps
+
+1. **Connect your iPhone** to the Mac with a cable.  
+   Unlock the phone and tap **Trust** if a "Trust This Computer?" dialog appears.
+
+2. **Open the project in Xcode**
+
+   ```bash
+   open CalendarAutoAlarm.xcodeproj
+   ```
+
+3. **Select your iPhone as the destination**  
+   In the Xcode toolbar click the destination selector and choose your device
+   (e.g. *"John's iPhone"*).  
+   If the device shows as "not connected", make sure USB trust is accepted and the
+   phone is unlocked, then wait a few seconds for Xcode to recognize it.
+
+4. **Set a signing team**
+   1. In the Project Navigator click **CalendarAutoAlarm** (the project, not a folder).
+   2. Select the **CalendarAutoAlarm** target → *Signing & Capabilities* tab.
+   3. Under *Team*, choose your Apple ID (add it via *Xcode → Settings → Accounts* if it
+      isn't listed yet).
+   4. Xcode will automatically generate a provisioning profile.  
+      If you see a bundle-ID conflict, change *Bundle Identifier* to something unique,
+      e.g. `com.yourname.CalendarAutoAlarm`.
+
+5. **Build and install** — press **⌘R**.  
+   Xcode compiles the app and installs it on the device.
+
+6. **Trust the developer certificate on-device** *(free Apple ID only)*  
+   The first time you open the app you may see *"Untrusted Developer"*.
+   Fix this once:
+   > **Settings → General → VPN & Device Management → [Your Apple ID] → Trust**
+
+7. **Grant Calendar access** when the app asks on first launch.  
+   You can review or change this later at  
+   *Settings → Privacy & Security → Calendars → CalendarAutoAlarm*.
+
+8. **Add alarm directives to an event**  
+   In the iPhone **Calendar** app (or Google Calendar app), open any event,
+   edit its **Notes/Description** field, and add a line such as `alarm: wakeup 30m`.
+   Save, then open CalendarAutoAlarm and pull down to refresh — the alarm will be
+   scheduled as a local notification.
 
 > **Using Google Calendar on iPhone?**  
 > Add your Google account in **Settings → Calendar → Accounts → Add Account → Google**.
-> Its events will then appear in the on-device calendar store and be visible to this app.
+> Its events will appear in the on-device calendar store and become visible to this app.
 
 ---
 
