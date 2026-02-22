@@ -106,7 +106,7 @@ struct EventRow: View {
 
             // Live countdown to event start
             HStack(spacing: 4) {
-                Image(systemName: "calendar.clock")
+                Image(systemName: "calendar")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Text("Event ") + Text(event.startDate, style: .relative)

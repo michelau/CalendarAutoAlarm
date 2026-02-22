@@ -38,10 +38,11 @@ the built-in Clock app — that alarm store is private to Apple. No third-party 
 (including Google Calendar, Fantastical, or Reminders) can create Clock alarms
 programmatically.
 
-This app does the next best thing: it delivers **time-sensitive local notifications** that:
+This app uses **Critical Alert notifications** instead, which behave as close to a real
+alarm as iOS allows for third-party apps:
 
-* **Break through Focus modes and Do Not Disturb** (using `interruptionLevel = .timeSensitive`)
-* **Play the critical alert sound** at the scheduled time
+* **Sound plays even when the ringer/silent switch is off** — Critical Alerts bypass the silent switch, just like Clock alarms
+* **Break through Focus modes and Do Not Disturb**
 * **Stay in your notification centre** after the banner appears (not just a transient banner)
 
 ### Make notifications stay on screen like a real alarm
@@ -52,8 +53,13 @@ the notification style to **Alerts**:
 
 > **Settings → Notifications → Calendar Alarms → Notification Style → Alerts**
 
-With *Alerts* selected, the notification will remain on screen, sound will play, and you
-must tap **Dismiss** (or the app) to clear it, matching the feel of a Clock alarm.
+With *Alerts* selected, the notification will remain on screen, sound will play through
+silent mode, and you must tap **Dismiss** (or the app) to clear it.
+
+> **Note for App Store distribution:** The Critical Alerts entitlement requires explicit
+> Apple approval for App Store submissions. Personal/development builds work without any
+> special approval. Apply at:
+> https://developer.apple.com/contact/request/notifications-critical-alerts-entitlement/
 
 ---
 
