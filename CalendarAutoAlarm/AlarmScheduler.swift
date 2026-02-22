@@ -3,12 +3,20 @@ import CalendarAutoAlarmCore
 
 /// Schedules and cancels local notifications (alarms) for calendar events.
 ///
-/// Each alarm is identified by a string of the form `<eventID>:<alarmIndex>` so that
+/// Each alarm is identified by a string of the form `caa:<eventID>:<alarmIndex>` so that
 /// refreshing the event list cancels stale alarms and replaces them with up-to-date ones.
+///
+/// Also acts as `UNUserNotificationCenterDelegate` so banners appear while the app is
+/// in the foreground (important for Simulator testing).
 @MainActor
-final class AlarmScheduler: ObservableObject {
+final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
 
     private let center = UNUserNotificationCenter.current()
+
+    override init() {
+        super.init()
+        center.delegate = self
+    }
 
     // MARK: - Permission
 
@@ -23,6 +31,18 @@ final class AlarmScheduler: ObservableObject {
         } catch {
             print("CalendarAutoAlarm: Permission request failed – \(error)")
         }
+    }
+
+    // MARK: - UNUserNotificationCenterDelegate
+
+    /// Show notification banners (with sound and badge) even when the app is in the foreground.
+    /// This is essential for Simulator testing where the app is always in the foreground.
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound, .badge])
     }
 
     // MARK: - Scheduling
@@ -51,21 +71,18 @@ final class AlarmScheduler: ObservableObject {
 
     private func scheduleAlarm(event: CalendarEvent, spec: AlarmSpec, index: Int) async {
         let fireDate = event.startDate.addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
-        guard fireDate > Date() else { return }   // Don't schedule past alarms
+        let secondsUntilFire = fireDate.timeIntervalSinceNow
+        guard secondsUntilFire > 0 else { return }   // Don't schedule past alarms
 
         let content = UNMutableNotificationContent()
         content.title  = spec.name ?? "Upcoming Event"
         content.body   = alarmBody(event: event, spec: spec)
         content.sound  = .defaultCritical
 
-        var dateComponents = Calendar.current.dateComponents(
-            [.year, .month, .day, .hour, .minute, .second],
-            from: fireDate
-        )
-        dateComponents.timeZone = TimeZone.current
-
-        let trigger = UNCalendarNotificationTrigger(
-            dateMatching: dateComponents,
+        // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator
+        // than UNCalendarNotificationTrigger (avoids timezone/date-component edge cases).
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: secondsUntilFire,
             repeats: false
         )
 

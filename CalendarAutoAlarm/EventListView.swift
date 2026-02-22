@@ -99,36 +99,43 @@ struct EventRow: View {
     let event: CalendarEvent
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
+
             Text(event.title)
                 .font(.headline)
 
-            Text(event.startDate, style: .relative)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            // Live countdown to event start
+            HStack(spacing: 4) {
+                Image(systemName: "calendar.clock")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text("Event ") + Text(event.startDate, style: .relative)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
 
-            if !event.alarmSpecs.isEmpty {
+            // Live countdown per alarm
+            ForEach(Array(event.alarmSpecs.enumerated()), id: \.offset) { _, spec in
+                let fireDate = event.startDate
+                    .addingTimeInterval(-Double(spec.offsetBeforeEventSeconds))
                 HStack(spacing: 4) {
                     Image(systemName: "bell.fill")
                         .foregroundStyle(Color.accentColor)
                         .font(.caption)
-                    ForEach(Array(event.alarmSpecs.enumerated()), id: \.offset) { _, spec in
-                        Text(alarmLabel(spec))
-                            .font(.caption)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(.tint.opacity(0.15), in: Capsule())
-                    }
+                    alarmCountdownText(spec: spec, fireDate: fireDate)
+                        .font(.caption)
                 }
             }
         }
         .padding(.vertical, 4)
     }
 
-    private func alarmLabel(_ spec: AlarmSpec) -> String {
+    @ViewBuilder
+    private func alarmCountdownText(spec: AlarmSpec, fireDate: Date) -> some View {
         if let name = spec.name {
-            return "\(name) – \(spec.offsetDescription)"
+            Text("\(name) – ") + Text(fireDate, style: .relative)
+        } else {
+            Text("Alarm – ") + Text(fireDate, style: .relative)
         }
-        return spec.offsetDescription
     }
 }
