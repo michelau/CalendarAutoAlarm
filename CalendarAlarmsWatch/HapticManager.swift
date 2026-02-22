@@ -21,10 +21,7 @@ enum HapticManager {
     /// Plays the alarm haptic pattern asynchronously.
     ///
     /// Uses `Task.sleep` (Swift cooperative threading) instead of
-    /// `DispatchQueue.main.asyncAfter` so the full sequence completes reliably
-    /// inside a `WKUserNotificationHostingController.didReceive()` call — the
-    /// main run loop's timer queue is not driven reliably in that context, but
-    /// the Swift concurrency runtime is.
+    /// `DispatchQueue.main.asyncAfter` for reliable inter-step timing.
     @MainActor
     static func playAlarmPattern() async {
         // Each step: (haptic type, nanoseconds to sleep *before* this tap)

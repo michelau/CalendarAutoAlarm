@@ -328,3 +328,9 @@ Open the project in Xcode, select the **CalendarAutoAlarm** target →
 *Signing & Capabilities* tab → set **Team** to your Apple ID.  
 If your Apple ID isn't listed, add it via *Xcode → Settings → Accounts*.
 
+### "Could not get trait set for device Watch6,9 with version 26.3"
+
+This is a **benign warning** from `actool` in Xcode 26 beta — the SDK doesn't yet
+include trait-set data for Watch6,9 at watchOS 26.3. It does not affect the build
+or runtime behaviour and can be safely ignored.
+
