@@ -45,11 +45,11 @@ This app uses **local notifications** instead:
 * **Stay in your notification centre** after the banner appears
 
 > **Focus modes / Do Not Disturb:**  
-> Without a paid Apple Developer Program membership, the "Time Sensitive Notifications"
-> capability is unavailable (personal teams don't support it). This means alarms will be
+> Without a paid Apple Developer Program membership, alarms will be
 > suppressed by Focus modes and Do Not Disturb just like any other notification.  
 > **Workaround:** disable Focus mode, or add *Calendar Alarms* to your Focus's allowed
-> apps under **Settings → Focus → [your focus] → Allowed Notifications**.
+> apps under **Settings → Focus → [your focus] → Allowed Notifications**.  
+> See [Upgrading capabilities with a paid or enterprise developer account](#upgrading-capabilities-with-a-paid-or-enterprise-developer-account) for how to bypass this with a paid account.
 
 > **Silent/ringer switch:**  
 > Notifications do not bypass the silent switch. Keep your phone on ring mode for alarms
@@ -64,6 +64,103 @@ notification style to **Alerts**:
 > **Settings → Notifications → Calendar Alarms → Notification Style → Alerts**
 
 With *Alerts* selected the notification remains on screen and requires a tap to dismiss.
+
+---
+
+## Upgrading capabilities with a paid or enterprise developer account
+
+A free personal Apple ID has tight restrictions. A paid **Apple Developer Program**
+account ($99/year) unlocks more, and an **enterprise or public-safety developer account**
+can go further still. Here is what each tier enables:
+
+### 1 — Time Sensitive Notifications (paid account, no Apple approval needed)
+
+**What it does:** Alarms break through Focus modes and Do Not Disturb — they ring even when
+the phone is silenced via a Focus. This is the single most impactful upgrade.
+
+**Requirements:** Any paid Apple Developer Program membership ($99/year). No special
+approval from Apple — it is a standard capability that Xcode can add automatically.
+
+**How to enable (no code change needed):**
+
+1. Sign in to Xcode with a paid developer account (*Xcode → Settings → Accounts*).
+2. Open the project, select the **CalendarAutoAlarm** target → **Signing & Capabilities**.
+3. Click **+ Capability** and add **Time Sensitive Notifications**.
+4. Rebuild with ⌘R.
+
+The code already sets `content.interruptionLevel = .timeSensitive` on every alarm
+notification. Once the entitlement is in the provisioning profile, iOS honours it
+automatically — no further code change needed.
+
+> **Note:** the silent/ringer switch is still respected with this capability. Alarms will
+> ring if Focus/DND is on, but not if the phone is physically silenced.
+
+---
+
+### 2 — Critical Alerts (requires explicit Apple approval)
+
+**What it does:** Alarms play sound and vibrate even when the silent/ringer switch is
+flipped to silent. They also bypass all Focus modes. This is the closest behaviour to
+the built-in Clock app alarm.
+
+**Requirements:** An explicit entitlement approval from Apple. Apple grants this
+entitlement primarily to:
+
+* **Public safety** and emergency-response apps ✓
+* Medical device companion apps ✓
+* Home security and critical infrastructure apps ✓
+
+> A **public safety company developer account is a strong candidate for approval.**
+> Apple's own documentation lists public safety as one of the primary intended use cases.
+
+**How to apply:**
+
+1. Join the Apple Developer Program ($99/year) if you have not already.
+2. Submit a request at:  
+   **<https://developer.apple.com/contact/request/notifications-critical-alerts-entitlement/>**
+3. Describe your public safety use case. Approval typically takes 1–2 weeks.
+4. Once approved, open the project → **CalendarAutoAlarm** target → **Signing & Capabilities**
+   → **+ Capability** → **Critical Alerts**.
+5. In `AlarmScheduler.swift`, change:
+   ```swift
+   content.interruptionLevel = .timeSensitive
+   ```
+   to:
+   ```swift
+   content.interruptionLevel = .critical
+   content.sound = .defaultCritical   // replaces .defaultRingtone
+   ```
+   Also add `.criticalAlert` to the `requestAuthorization` options call.
+
+---
+
+### 3 — Custom Watch haptic on background notifications
+
+**What it does:** Plays the custom "3·1·2" haptic pattern on the Watch even when the
+Watch app is in the background (the normal, locked-iPhone case). Without this,
+background Watch notifications use only the standard system haptic.
+
+**Requirements:** The `com.apple.developer.usernotifications.filtering` entitlement.
+Apple grants this to health, fitness, and public safety apps. Apply at:  
+**<https://developer.apple.com/contact/request/notification-management/>**
+
+**How to enable once approved:**
+
+1. Add a **Notification Service Extension** target to the Watch app in Xcode.
+2. In the extension's `UNNotificationServiceExtension.didReceive(_:)`, call
+   `HapticManager.playAlarmPattern()` and modify the content as needed.
+3. Wire the entitlement in the Watch target's Signing & Capabilities.
+
+---
+
+### Summary table
+
+| Capability | Bypass Focus/DND | Bypass silent switch | Watch background haptic | Approval needed |
+|---|---|---|---|---|
+| Personal free Apple ID (current) | ✗ | ✗ | ✗ | — |
+| Paid Developer Program ($99/yr) | ✅ Time Sensitive | ✗ | ✗ | No |
+| Critical Alerts entitlement | ✅ | ✅ | ✗ | Yes (Apple) |
+| `usernotifications.filtering` entitlement | ✅ | ✅ | ✅ | Yes (Apple) |
 
 ---
 

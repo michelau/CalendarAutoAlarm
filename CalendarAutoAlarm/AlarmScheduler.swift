@@ -92,8 +92,12 @@ final class AlarmScheduler: NSObject, ObservableObject, UNUserNotificationCenter
         content.body               = alarmBody(event: event, spec: spec)
         // .defaultRingtone plays the device's ringtone — louder than a notification ping.
         content.sound              = .defaultRingtone
-        // Tells the Watch companion app which WKNotificationScene to activate so it
-        // can play the custom haptic pattern instead of the standard notification buzz.
+        // .timeSensitive breaks through Focus modes and Do Not Disturb.
+        // Has no effect until the "Time Sensitive Notifications" capability is added
+        // in Xcode → Signing & Capabilities (requires a paid Apple Developer account).
+        // No code change needed when the capability is added — it activates automatically.
+        content.interruptionLevel  = .timeSensitive
+        // Lets the Watch companion app identify this as a calendar alarm.
         content.categoryIdentifier = "CALENDAR_ALARM"
 
         // UNTimeIntervalNotificationTrigger is simpler and more reliable on Simulator
